@@ -396,3 +396,11 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Export Folder
+
+export/*
+
+# Workspace
+
+FinalHaxesty.code-workspace

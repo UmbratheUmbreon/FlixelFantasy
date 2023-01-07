@@ -9,11 +9,12 @@ import stats.CustomFPS;
 import stats.CustomFPS.CustomMEM;
 #end
 
-class Main extends Sprite {
+class Main extends Sprite
+{
 	final game = {
 		width: 256,
 		height: 224,
-		initial_state: PlayState,
+		initial_state: states.TitleState,
 		framerate: 60,
 		skip_splash: true,
 		fullscreen: false
@@ -22,7 +23,8 @@ class Main extends Sprite {
 	public static function main():Void
 		Lib.current.addChild(new Main());
 
-	public function new() {
+	public function new()
+	{
 		super();
 
 		if (stage != null)
@@ -31,23 +33,30 @@ class Main extends Sprite {
 			addEventListener(Event.ADDED_TO_STAGE, init);
 	}
 
-	private inline function init(?E:Event):Void {
+	private inline function init(?E:Event):Void
+	{
 		if (hasEventListener(Event.ADDED_TO_STAGE))
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 
 		setupGame();
 	}
 
-	private inline function setupGame():Void {
+	private inline function setupGame():Void
+	{
 		addChild(new FlxGame(game.width, game.height, game.initial_state, game.framerate, game.framerate, game.skip_splash, game.fullscreen));
 
-		fpsCounter = new CustomFPS(10, 3, 0xFFFFFF);
+		fpsCounter = new CustomFPS(2, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 
 		#if debug
-		ramCount = new CustomMEM(10, 16, 0xffffff);
+		ramCount = new CustomMEM(2, 6, 0xffffff);
 		addChild(ramCount);
 		#end
+
+		FlxG.game.focusLostFramerate = 60;
+		FlxG.keys.preventDefaultKeys = [TAB];
+		FlxG.save.bind('srm1');
+		FlxG.mouse.visible = false;
 	}
 
 	public static var fpsCounter:CustomFPS;

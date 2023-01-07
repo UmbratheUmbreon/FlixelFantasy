@@ -20,7 +20,7 @@ class CustomFPS extends TextField {
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("VCR OSD Mono", 12, color);
+		defaultTextFormat = new TextFormat(null, 4, color);
 		text = "FPS: ";
 
 		cacheCount = 0;
@@ -58,14 +58,14 @@ class CustomMEM extends TextField {
 
 		selectable = false;
 
-		defaultTextFormat = new TextFormat("VCR OSD Mono", 12, inCol);
+		defaultTextFormat = new TextFormat(null, 4, inCol);
 
 		text = "";
 
 		addEventListener(Event.ENTER_FRAME, onEnter);
 
-		width = 300;
-		height = 70;
+		width = 100;
+		height = 23;
 	}
 
 	private function onEnter(_) {
