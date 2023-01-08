@@ -15,15 +15,18 @@ class TitleState extends BasicState
 		add(bgGraphic);
 
 		//music crashes lol
-		/*FlxG.sound.music.loadEmbedded(Pathfinder.sound('prelude', true));
-		FlxG.sound.music.fadeIn(3, 0.4, 1);
-		FlxG.sound.music.loopTime = 39395;
-		FlxG.sound.music.endTime = 11836;*/
+		if(FlxG.sound.music == null)
+		{
+			FlxG.sound.playMusic(Pathfinder.sound('prelude', true), 0.4);
+			FlxG.sound.music.fadeIn(3, 0.4, 1);
+			//FlxG.sound.music.loopTime = 39395;
+			//FlxG.sound.music.endTime = 11836;
+		}
 
-		new FlxTimer().start(0.2, function(tmr:FlxTimer) {
+		new FlxTimer().start(0.05, function(tmr:FlxTimer) {
 			if (bgGraphic.alpha < 1) {
 				bgGraphic.alpha += 0.1;
-				tmr.reset(0.2);
+				tmr.reset(0.05);
 			}
 		});
 	}
@@ -39,7 +42,7 @@ class TitleState extends BasicState
 		switch (event.keyCode)
 		{
 			default:
-				FlxG.switchState(new states.SaveState());
+				BasicState.swapState(new states.SaveState(), FADE);
 		}
 	}
 }

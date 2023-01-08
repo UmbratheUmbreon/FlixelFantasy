@@ -45,26 +45,27 @@ class Main extends Sprite
 	{
 		addChild(new FlxGame(game.width, game.height, game.initial_state, game.framerate, game.framerate, game.skip_splash, game.fullscreen));
 
-		fpsCounter = new CustomFPS(2, 3, 0xFFFFFF);
+		/*fpsCounter = new CustomFPS(2, 3, 0xFFFFFF);
 		addChild(fpsCounter);
 
 		#if debug
 		ramCount = new CustomMEM(2, 6, 0xffffff);
 		addChild(ramCount);
-		#end
+		#end*/
 
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.keys.preventDefaultKeys = [TAB];
 		FlxG.save.bind('srm1');
 		FlxG.mouse.visible = false;
+		flixel.FlxSprite.defaultAntialiasing = false;
 	}
 
-	public static var fpsCounter:CustomFPS;
+	/*public static var fpsCounter:CustomFPS;
 	public static var ramCount:CustomMEM;
 
 	inline public static function toggleFPS(fpsEnabled:Bool):Void
 		fpsCounter.visible = fpsEnabled;
 
 	inline public static function toggleMEM(memEnabled:Bool):Void
-		ramCount.visible = memEnabled;
+		ramCount.visible = memEnabled;*/
 }

@@ -2,9 +2,11 @@ package utils;
 
 import flixel.graphics.FlxGraphic;
 import openfl.Assets as OpenFlAssets;
-import openfl.media.Sound;
+import openfl.utils.AssetType;
 
 class Pathfinder {
+    inline public static final SOUND_EXT = #if web "mp3" #else "ogg" #end;
+
     public static inline function image(key:String):FlxGraphic
     {
         final path = 'assets/images/$key.png';
@@ -12,9 +14,15 @@ class Pathfinder {
 		return null;
     }
 
-    public static inline function sound(key:String, ?music:Bool = false):Null<Sound>
+    public static inline function sound(key:String, ?music:Bool = false)
     {
         final library:String = music ? 'music' : 'sounds';
-        return OpenFlAssets.getSound('assets/$library/$key.ogg');
+        return 'assets/$library/$key.$SOUND_EXT'; //mfw i overcomplicate this
+    }
+
+    public static inline function exists(key:String, type:AssetType):Bool
+    {
+        if (OpenFlAssets.exists(key, type)) return true;
+        return false;
     }
 }
