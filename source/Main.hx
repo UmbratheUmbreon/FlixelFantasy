@@ -55,9 +55,10 @@ class Main extends Sprite
 
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.keys.preventDefaultKeys = [TAB];
-		FlxG.save.bind('srm1');
+		FlxG.save.bind('srm0');
 		FlxG.mouse.visible = false;
 		flixel.FlxSprite.defaultAntialiasing = false;
+		SaveManager.load();
 	}
 
 	/*public static var fpsCounter:CustomFPS;
