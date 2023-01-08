@@ -44,6 +44,12 @@ class SaveState extends BasicState
 
         new FlxTimer().start(0.8, function(tmr:FlxTimer) {
             newGameCecil.visible = true;
+            for (window in windowArray) {
+                window.active = false;
+            }
+            for (text in windowTxtArray) {
+                text.active = false;
+            }
         });
 
         newGameTxt = new WindowText(24, 16, 8, "New Game", newGameWindow);
