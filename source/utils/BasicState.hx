@@ -6,6 +6,7 @@ import flixel.FlxSubState;
 import flixel.input.keyboard.FlxKey;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
+import lime.app.Application;
 
 enum TransitionType {
     FADE;
@@ -59,6 +60,19 @@ class BasicState extends FlxState
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = keyInt(eventKey);
         if (key == -1) return;
+
+        switch (key) {
+            case ONE:
+                if (Application.current.window.width > 256) {
+                    Application.current.window.width = Math.round(Application.current.window.width/2);
+                    Application.current.window.height = Math.round(Application.current.window.height/2);
+                }
+            case TWO:
+                Application.current.window.width = Math.round(Application.current.window.width*2);
+                Application.current.window.height = Math.round(Application.current.window.height*2);
+            default:
+                //nothin
+        }
     }
 
     public function keyRelease(event:KeyboardEvent):Void

@@ -85,17 +85,19 @@ class WindowText extends FlxTypedSpriteGroup<FlxSprite> {
     var _x:Float = 0;
     var _y:Float = 0;
     var window:Window;
-    public function new(x:Float, y:Float, fieldWidth:Int, text:String, _window:Window, ?palette:Int = 255) {
+    public var text:String = '';
+    public function new(x:Float, y:Float, fieldWidth:Int, _text:String, _window:Window, ?palette:Int = 255) {
         super(x,y,0);
         _x = x;
         _y = y;
         window = _window;
+        text = _text;
 
         var yInc:Int = 0;
         var xInc:Int = 0;
-        for (i in 0...text.length) {
+        for (i in 0..._text.length) {
             var sprite = new FlxSprite(8*i, 16*yInc).loadGraphic(Pathfinder.image('MENU/WINDOW'), true, 8, 8);
-            var frame:Int = charMap.get(text.charAt(i));
+            var frame:Int = charMap.get(_text.charAt(i));
             sprite.animation.add('anim', [frame], 24);
             sprite.animation.play('anim', true);
             sprites.push(sprite);
@@ -113,8 +115,13 @@ class WindowText extends FlxTypedSpriteGroup<FlxSprite> {
     override function update(elapsed) {
         super.update(elapsed);
 
-        x = window.x + _x;
-        y = window.y + _y;
+        x = Math.round(window.x + _x);
+        y = Math.round(window.y + _y);
+        //thought this would fix the uhhhh cut offs on higher res but nope
+        /*for (sprite in sprites) {
+            sprite.x = Math.round(sprite.x);
+            sprite.y = Math.round(sprite.y);
+        }*/
     }
 
     public function setPalette(palette:Int, ?_save:Int = 0) {

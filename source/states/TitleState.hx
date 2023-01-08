@@ -1,6 +1,7 @@
 package states;
 
 import flixel.FlxSprite;
+import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxTimer;
 
 class TitleState extends BasicState
@@ -12,6 +13,7 @@ class TitleState extends BasicState
 
 		bgGraphic = new FlxSprite(0,0).loadGraphic(Pathfinder.image('TITLE'));
 		bgGraphic.alpha = 0;
+		bgGraphic.active = false;
 		add(bgGraphic);
 
 		//music crashes lol
@@ -39,10 +41,17 @@ class TitleState extends BasicState
 	override function keyPress(event:KeyboardEvent)
 	{
 		super.keyPress(event);
-		switch (event.keyCode)
+		var eventKey:FlxKey = event.keyCode;
+		var key:Int = keyInt(eventKey);
+		switch (key)
 		{
+			case ENTER | SPACE:
+				/*if (!SaveManager.exists(0) && !SaveManager.exists(1) && !SaveManager.exists(2) && !SaveManager.exists(3))
+					BasicState.swapState(new states.OverworldState(), FADE);
+				else*/
+					BasicState.swapState(new states.SaveState(), FADE);
 			default:
-				BasicState.swapState(new states.SaveState(), FADE);
+				//do nothin
 		}
 	}
 }

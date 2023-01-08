@@ -40,6 +40,15 @@ class Window extends FlxTypedSpriteGroup<FlxSprite> {
         setPalette(palette);
     }
 
+    override function update(elapsed) {
+        x = Math.round(x);
+        y = Math.round(y);
+        /*for (sprite in sprites) {
+            sprite.x = Math.round(sprite.x);
+            sprite.y = Math.round(sprite.y);
+        }*/
+    }
+
     public function setPalette(palette:Int, ?_save:Int = 0) {
         if (palette == 255) return;
         var save:FlxSave = new FlxSave();
