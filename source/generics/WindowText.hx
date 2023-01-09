@@ -86,24 +86,26 @@ class WindowText extends FlxTypedSpriteGroup<FlxSprite> {
     var _y:Float = 0;
     var window:Window;
     public var text:String = '';
-    public function new(x:Float, y:Float, fieldWidth:Int, _text:String, _window:Window, ?palette:Int = 255) {
+    var fieldWidth:Int = 1;
+    public function new(x:Float, y:Float, _fieldWidth:Int, _text:String, _window:Window, ?palette:Int = 255) {
         super(x,y,0);
         _x = x;
         _y = y;
         window = _window;
         text = _text;
+        fieldWidth = _fieldWidth;
 
         var yInc:Int = 0;
         var xInc:Int = 0;
         for (i in 0..._text.length) {
-            var sprite = new FlxSprite(8*i, 16*yInc).loadGraphic(Pathfinder.image('MENU/WINDOW'), true, 8, 8);
+            var sprite = new FlxSprite(8*xInc, 16*yInc).loadGraphic(Pathfinder.image('MENU/WINDOW'), true, 8, 8);
             var frame:Int = charMap.get(_text.charAt(i));
             sprite.animation.add('anim', [frame], 24);
             sprite.animation.play('anim', true);
             sprites.push(sprite);
             add(sprite);
             xInc++;
-            if (xInc == fieldWidth) {
+            if (xInc == _fieldWidth) {
                 xInc = 0;
                 yInc++;
             }
@@ -148,6 +150,35 @@ class WindowText extends FlxTypedSpriteGroup<FlxSprite> {
                     sprite.replaceColor(0xffa3a3a3, 0xffff3a84, false);
                     sprite.replaceColor(0xffffffff, 0xffff9c5a, false);
                 }
+            case 4:
+                for (sprite in sprites) {
+                    sprite.replaceColor(0xff000084, 0xff000037, false);
+                }
+        }
+    }
+
+    public function changeText(newText:String) {
+        for (sprite in sprites) {
+            sprite.kill();
+            sprites.remove(sprite);
+            sprite.destroy();
+        }
+        
+        text = newText;
+        var yInc:Int = 0;
+        var xInc:Int = 0;
+        for (i in 0...newText.length) {
+            var sprite = new FlxSprite(8*xInc, 16*yInc).loadGraphic(Pathfinder.image('MENU/WINDOW'), true, 8, 8);
+            var frame:Int = charMap.get(newText.charAt(i));
+            sprite.animation.add('anim', [frame], 24);
+            sprite.animation.play('anim', true);
+            sprites.push(sprite);
+            add(sprite);
+            xInc++;
+            if (xInc == fieldWidth) {
+                xInc = 0;
+                yInc++;
+            }
         }
     }
 }

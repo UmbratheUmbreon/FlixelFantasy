@@ -73,6 +73,10 @@ class Window extends FlxTypedSpriteGroup<FlxSprite> {
                     sprite.replaceColor(0xffa3a3a3, 0xffff3a84, false);
                     sprite.replaceColor(0xffffffff, 0xffff9c5a, false);
                 }
+            case 4:
+                for (sprite in sprites) {
+                    sprite.replaceColor(0xff000084, 0xff000037, false);
+                }
         }
     }
 }

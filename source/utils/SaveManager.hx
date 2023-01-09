@@ -5,7 +5,7 @@ import flixel.util.FlxSave;
 class SaveManager {
 	public static var config:Map<String, Dynamic> = [
         //Name, Value
-		"windowColor" => 0xff000084,
+		"windowColor" => 0xff000084, //default 0xff000084
 		"battleSpeed" => 3,
 		"battleMessageSpeed" => 3,
 		"battleType" => "active"
@@ -13,8 +13,10 @@ class SaveManager {
 
 	public static var genericData:Map<String, Dynamic> = [
 		"partyOrder" => 0,
-		"playTime" => 0,
-		"leaderHP" => "0/0"
+		"playHours" => 0,
+		"playMinutes" => 0,
+		"leaderHP" => "200/200",
+		"partyNames" => ["CECIL", "", "", "", ""]
 	];
 
 	public static var inventory:Map<Int, Array<Int>> = [
@@ -69,20 +71,29 @@ class SaveManager {
 		47 => [257, 0]  //Trash Can
 	];
 
-	public static function save(save:Int = 0)
+	public static function erase(_save:Int = 0)
 	{
 		var save:FlxSave = new FlxSave();
-		save.bind('srm$save');
+		save.bind('srm$_save');
+		save.erase();
+		trace ('erased srm$_save');
+	}
+
+	public static function save(_save:Int = 0)
+	{
+		var save:FlxSave = new FlxSave();
+		save.bind('srm$_save');
 		save.data.config = config;
 		save.data.genericData = genericData;
 		save.data.inventory = inventory;
 		save.flush();
+		trace ('saved srm$_save');
 	}
 
-	public static function load(save:Int = 0)
+	public static function load(_save:Int = 0)
 	{
 		var save:FlxSave = new FlxSave();
-		save.bind('srm$save');
+		save.bind('srm$_save');
 
 		if (save != null) {
 			if(save.data.config != null)
@@ -107,19 +118,23 @@ class SaveManager {
 
 		if (FlxG.save.data.volume != null) FlxG.sound.volume = FlxG.save.data.volume;
 		if (FlxG.save.data.mute != null) FlxG.sound.muted = FlxG.save.data.mute;
+		trace ('loaded srm$_save');
 	}
 
-	public static function exists(save:Int = 0):Bool
+	public static function exists(_save:Int = 0):Bool
 	{
 		var save:FlxSave = new FlxSave();
-		save.bind('srm$save');
-		return save == null;
+		save.bind('srm$_save');
+		trace ('srm$_save ' + ((save == null || save.data == null || save.data.genericData == null) ? 'does not exist' : 'exists'));
+		if (save == null || save.data == null || save.data.genericData == null) return false;
+		return true;
 	}
 
-	public static function get(save:Int = 0, key:Dynamic, map:String = 'config'):Dynamic
+	public static function get(_save:Int = 0, key:Dynamic, map:String = 'config'):Dynamic
 	{
 		var save:FlxSave = new FlxSave();
-		save.bind('srm$save');
+		save.bind('srm$_save');
+		trace ('getting data from srm$_save');
 		switch (map.toLowerCase()) {
 			case 'config':
 				if (save != null && save.data.config != null) {

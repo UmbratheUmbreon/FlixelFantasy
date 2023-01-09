@@ -50,6 +50,28 @@ class TitleState extends BasicState
 					BasicState.swapState(new states.OverworldState(), FADE);
 				else*/
 					BasicState.swapState(new states.SaveState(), FADE);
+			#if debug
+			case S:
+				if (FlxG.keys.pressed.SEVEN) {
+					SaveManager.save(0);
+				} else if (FlxG.keys.pressed.EIGHT) {
+					SaveManager.save(1);
+				} else if (FlxG.keys.pressed.NINE) {
+					SaveManager.save(2);
+				} else if (FlxG.keys.pressed.ZERO) {
+					SaveManager.save(3);
+				}
+			case E:
+				if (FlxG.keys.pressed.SEVEN) {
+					SaveManager.erase(0);
+				} else if (FlxG.keys.pressed.EIGHT) {
+					SaveManager.erase(1);
+				} else if (FlxG.keys.pressed.NINE) {
+					SaveManager.erase(2);
+				} else if (FlxG.keys.pressed.ZERO) {
+					SaveManager.erase(3);
+				}
+			#end
 			default:
 				//do nothin
 		}
