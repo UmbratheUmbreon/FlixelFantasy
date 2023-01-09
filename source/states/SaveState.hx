@@ -31,7 +31,7 @@ class SaveState extends BasicState
             var text = new WindowText(8, 
                 8*3, 
                 13, 
-                'Save${i+1}  ' + (SaveManager.exists(i) ? SaveManager.get(0, "playHours", "generic") + ':' +  SaveManager.get(0, "playMinutes", "generic") + "     " + SaveManager.get(i, "leaderHP", "generic") : "Empty"), 
+                'Save${i+1}  ' + (SaveManager.exists(i) ? SaveManager.get(i, "playHours", "generic") + ':' +  SaveManager.get(i, "playMinutes", "generic") + "     " + SaveManager.get(i, "leaderHP", "generic") : "Empty"), 
                 windowArray[i]);
             windowTxtArray.push(text);
             text.setPalette(0, i);
