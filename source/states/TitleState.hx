@@ -71,6 +71,8 @@ class TitleState extends BasicState
 				} else if (FlxG.keys.pressed.ZERO) {
 					SaveManager.erase(3);
 				}
+			case F10:
+				BasicState.swapState(new states.WindowTestState(), BOX);
 			#end
 			default:
 				//do nothin

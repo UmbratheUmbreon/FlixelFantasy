@@ -21,7 +21,7 @@ class SaveState extends BasicState
     override function create() {
         super.create();
         for (i in 0...4) {
-            var window = new Window(0, 0, Std.int((FlxG.width/8)-1), 6);
+            var window = new Window(0, 3*8, Std.int((FlxG.width/8)-1), 6);
             windowArray.push(window);
             window.setPalette(0, i);
             FlxTween.tween(window, {y: ((window.height*i)-8*i)+3*8}, 0.8);
@@ -57,12 +57,6 @@ class SaveState extends BasicState
 
         new FlxTimer().start(0.8, function(tmr:FlxTimer) {
             changeSelection(mode);
-            for (window in windowArray) {
-                window.active = false;
-            }
-            for (text in windowTxtArray) {
-                text.active = false;
-            }
         });
 
         newGameTxt = new WindowText(24, 16, 10, (mode == 0 ? "New Game" : "Save"), newGameWindow);

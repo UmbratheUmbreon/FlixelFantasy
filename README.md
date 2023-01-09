@@ -14,7 +14,9 @@ Make a Pull Request if you wish to contribute!
 
 3) Install Flixel-Addons 3.0.0+ and Flixel-Ui 2.5.0+.
 
-4) Type `lime test windows` (HTML will not be supported) in the terminal.
+4) Install HxCpp-Debug-Server.
+
+5) Type `lime test windows` (HTML will not be supported) in the terminal.
 
 ## Controls
 

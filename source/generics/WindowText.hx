@@ -103,6 +103,7 @@ class WindowText extends FlxTypedSpriteGroup<FlxSprite> {
             sprite.animation.add('anim', [frame], 24);
             sprite.animation.play('anim', true);
             sprites.push(sprite);
+            sprite.active = false;
             add(sprite);
             xInc++;
             if (xInc == _fieldWidth) {
@@ -119,11 +120,6 @@ class WindowText extends FlxTypedSpriteGroup<FlxSprite> {
 
         x = Math.round(window.x + _x);
         y = Math.round(window.y + _y);
-        //thought this would fix the uhhhh cut offs on higher res but nope
-        /*for (sprite in sprites) {
-            sprite.x = Math.round(sprite.x);
-            sprite.y = Math.round(sprite.y);
-        }*/
     }
 
     public function setPalette(palette:Int, ?_save:Int = 0) {
@@ -173,6 +169,7 @@ class WindowText extends FlxTypedSpriteGroup<FlxSprite> {
             sprite.animation.add('anim', [frame], 24);
             sprite.animation.play('anim', true);
             sprites.push(sprite);
+            sprite.active = false;
             add(sprite);
             xInc++;
             if (xInc == fieldWidth) {
