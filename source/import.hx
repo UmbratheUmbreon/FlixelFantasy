@@ -1,3 +1,4 @@
+import data.*;
 import flixel.FlxG;
 import generics.*;
 import haxe.*;

@@ -403,4 +403,4 @@ export/*
 
 # Workspace
 
-FinalHaxesty.code-workspace
+*.code-workspace
