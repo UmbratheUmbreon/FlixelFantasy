@@ -100,6 +100,16 @@ class WindowText extends FlxTypedSpriteGroup<FlxSprite> {
         for (i in 0..._text.length) {
             var sprite = new FlxSprite(8*xInc, 16*yInc).loadGraphic(Pathfinder.image('MENU/WINDOW'), true, 8, 8);
             var frame:Int = charMap.get(_text.charAt(i));
+            if (frame == 255) {
+                remove(sprite, true);
+                sprite.destroy();
+                xInc++;
+                if (xInc == _fieldWidth) {
+                    xInc = 0;
+                    yInc++;
+                }
+                continue;
+            }
             sprite.animation.add('anim', [frame], 24);
             sprite.animation.play('anim', true);
             sprites.push(sprite);

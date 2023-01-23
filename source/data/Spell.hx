@@ -18,4 +18,30 @@ class Spell {
     public var sequence:Int = 0;
     public var effects:Int = 0;
     public var elements:Int = 0;
+    public var type:SpellSet.SpellSetType;
+
+    public function new(id:Int) {
+        switch (id) {
+            case 0:
+                //dummy so i can test lol
+                this.name = 'Hold';
+                this.effect = 7;
+                this.target = 5;
+                this.power = 0;
+                this.accuracy = 85;
+                this.delay = 1;
+                this.cost = 5;
+                this.reflects = true;
+                this.hitBoss = false;
+                this.impact = false;
+                this.damage = false;
+                this.sound = 'paralyze';
+                this.palette = 19;
+                this.sprites = 16;
+                this.sequence = 35;
+                this.effects = 0;
+                this.elements = 13;
+                this.type = WHITE;
+        }
+    }
 }

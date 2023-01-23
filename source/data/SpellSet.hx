@@ -28,9 +28,9 @@ class SpellSet {
         spells.remove(spell);
     }
 
-    public function init(_save:Int = 0, character:String) {
+    public function init(_save:Int = 0, character:String, type:SpellSetType) {
         if (SaveManager.exists(_save)) {
-            spells = SaveManager.get(_save, '${character}Spells', "generic");
+            spells = SaveManager.get(_save, '${character}${type}Spells', "generic");
         }
     }
 }

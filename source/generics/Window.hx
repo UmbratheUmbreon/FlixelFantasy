@@ -35,6 +35,35 @@ class Window extends FlxTypedSpriteGroup<FlxSprite> {
                 if (sprite.x == 0 && sprite.y == __height*8) frame = 13;
                 //bottom looping
                 if (sprite.y == __height*8 && sprite.x > 0 && sprite.x < __width*8) frame = 14;
+                switch(frame) {
+                    case 255:
+                        if (sprite.x == 8 && sprite.y == 8) {
+                            sprite.setGraphicSize((__width*8)-8, (__height*8)-8);
+                            sprite.updateHitbox();
+                        } else {
+                            remove(sprite, true);
+                            sprite.destroy();
+                            continue;
+                        }
+                    case 14 | 17:
+                        if (sprite.x == 8) {
+                            sprite.setGraphicSize((__width*8)-8, 8);
+                            sprite.updateHitbox();
+                        } else {
+                            remove(sprite, true);
+                            sprite.destroy();
+                            continue;
+                        }
+                    case 11 | 12:
+                        if (sprite.y == 8) {
+                            sprite.setGraphicSize(8, (__height*8)-8);
+                            sprite.updateHitbox();
+                        } else {
+                            remove(sprite, true);
+                            sprite.destroy();
+                            continue;
+                        }
+                }
                 sprite.animation.add('anim', [frame], 24);
                 sprite.animation.play('anim', true);
                 sprites.push(sprite);
@@ -58,11 +87,13 @@ class Window extends FlxTypedSpriteGroup<FlxSprite> {
                     else
                         sprite.visible = true;
                 }
-                enterMask.y += 8;
+                enterMask.y += 8.1;
                 if (enterMask.y > (_height*8)+5) {
                     entering = false;
                     enterMask.kill();
                     enterMask.destroy();
+                    for (sprite in sprites)
+                        sprite.visible = true;
                 }
             }
         }
@@ -109,7 +140,7 @@ class Window extends FlxTypedSpriteGroup<FlxSprite> {
             enterMask.kill();
             enterMask.destroy();
         }
-        enterMask = new FlxSprite(0,0).makeGraphic((_width*8)+8, (_height*8)+8, 0x66ff0000);
+        enterMask = new FlxSprite(0,8).makeGraphic((_width*8)+8, (_height*8)+8, 0x00ff0000);
         add(enterMask);
         entering = true;
     }

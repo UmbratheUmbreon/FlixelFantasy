@@ -2,6 +2,7 @@ package states;
 
 import flixel.input.keyboard.FlxKey;
 
+//the enter thingamabob broke when i optimized how windows are generated but whatever
 class WindowTestState extends BasicState {
     var window:Window;
     var windowTxt:WindowText;
@@ -25,9 +26,9 @@ class WindowTestState extends BasicState {
 		var key:Int = keyInt(eventKey);
 		switch (key)
 		{
-            case NINE:
+            case SIX:
                 if (speed > 1) speed -= 1;
-            case ZERO:
+            case SEVEN:
                 speed += 1;
 			case E:
                 window.enter(speed);
