@@ -4,14 +4,11 @@ import flixel.input.keyboard.FlxKey;
 
 //the enter thingamabob broke when i optimized how windows are generated but whatever
 class WindowTestState extends BasicState {
-    var window:Window;
-    var windowTxt:WindowText;
+    var window:TextBox;
     override function create() {
         super.create();
-        window = new Window(0, 0, Std.int((FlxG.width/8)-1), Std.int((FlxG.height/8)-1));
+        window = new TextBox(0, 0, Std.int((FlxG.width/8)-1), Std.int((FlxG.height/8)-1), 'This is a test.');
         add(window);
-        windowTxt = new WindowText(8, 8, 20, 'This is a test.', window);
-        add(windowTxt);
     }
 
     override function update(elapsed) {
@@ -32,6 +29,8 @@ class WindowTestState extends BasicState {
                 speed += speed;
 			case E:
                 window.enter(speed);
+            case Q:
+                window.exit(speed);
 			default:
 				//do nothin
 		}

@@ -6,7 +6,7 @@ import flixel.util.FlxSave;
 
 class WindowText extends FlxTypedSpriteGroup<FlxSprite> {
     //just the text and symbols!
-    var charMap:Map<String, Int> = [
+    public static var charMap:Map<String, Int> = [
         " " => 255,
         "A" => 66,
         "B" => 67,

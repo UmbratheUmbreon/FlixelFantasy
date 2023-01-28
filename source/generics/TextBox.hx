@@ -4,16 +4,23 @@ import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxSave;
+import flixel.util.FlxTimer;
 
-class Window extends FlxTypedSpriteGroup<FlxSprite> {
-    //no text or symbols, just window!
+class TextBox extends FlxTypedSpriteGroup<FlxSprite> {
     var sprites:Array<FlxSprite> = [];
     var _width:Int;
     var _height:Int;
-    public function new(x:Float, y:Float, __width:Int, __height:Int, ?palette:Int = 255) {
+    var texts:Array<FlxSprite> = [];
+    var _x:Float = 0;
+    var _y:Float = 0;
+    public var text:String = '';
+    var fieldWidth:Int = 1;
+    public function new(x:Float, y:Float, __width:Int, __height:Int, _text:String, ?palette:Int = 255) {
         super(x,y,0);
         _width = __width;
         _height = __height;
+        text = _text;
+        fieldWidth = _width - 2;
 
         for (i in 0...__width+1) {
             for (j in 0...__height+1) {
@@ -71,6 +78,7 @@ class Window extends FlxTypedSpriteGroup<FlxSprite> {
                 add(sprite);
             }
         }
+        changeText(text);
 
         setPalette(palette);
     }
@@ -90,29 +98,72 @@ class Window extends FlxTypedSpriteGroup<FlxSprite> {
                 for (sprite in sprites) {
                     sprite.replaceColor(0xff000084, ((save != null && save.data.config != null) ? save.data.config.get("windowColor") : 0xff000037), false);
                 }
+                for (text in texts) {
+                    text.replaceColor(0xff000084, ((save != null && save.data.config != null) ? save.data.config.get("windowColor") : 0xff000037), false);
+                }
             case 1:
                 for (sprite in sprites) {
                     sprite.replaceColor(0xffa3a3a3, 0xff424242, false);
                     sprite.replaceColor(0xffffffff, 0xff7b7b7b, false);
+                }
+                for (text in texts) {
+                    text.replaceColor(0xffa3a3a3, 0xff424242, false);
+                    text.replaceColor(0xffffffff, 0xff7b7b7b, false);
                 }
             case 2:
                 for (sprite in sprites) {
                     sprite.replaceColor(0xffa3a3a3, 0xff00a500, false);
                     sprite.replaceColor(0xffffffff, 0xffffde00, false);
                 }
+                for (text in texts) {
+                    text.replaceColor(0xffa3a3a3, 0xff00a500, false);
+                    text.replaceColor(0xffffffff, 0xffffde00, false);
+                }
             case 3:
                 for (sprite in sprites) {
                     sprite.replaceColor(0xffa3a3a3, 0xffff3a84, false);
                     sprite.replaceColor(0xffffffff, 0xffff9c5a, false);
                 }
+                for (text in texts) {
+                    text.replaceColor(0xffa3a3a3, 0xffff3a84, false);
+                    text.replaceColor(0xffffffff, 0xffff9c5a, false);
+                }
             case 4:
-                for (sprite in sprites) {
-                    sprite.replaceColor(0xff000084, 0xff000037, false);
+                for (text in texts) {
+                    text.replaceColor(0xff000084, 0xff000037, false);
                 }
         }
     }
 
+    public function changeText(newText:String) {
+        for (text in texts) {
+            text.kill();
+            texts.remove(text);
+            text.destroy();
+        }
+        
+        text = newText;
+        var yInc:Int = 0;
+        var xInc:Int = 0;
+        for (i in 0...newText.length) {
+            var text = new FlxSprite((8*xInc) + 8, (16*yInc) + 8).loadGraphic(Pathfinder.image('MENU/WINDOW'), true, 8, 8);
+            var frame:Int = WindowText.charMap.get(newText.charAt(i));
+            text.animation.add('anim', [frame], 24);
+            text.animation.play('anim', true);
+            texts.push(text);
+            text.active = false;
+            add(text);
+            xInc++;
+            if (xInc == fieldWidth) {
+                xInc = 0;
+                yInc++;
+            }
+        }
+    }
+
+    public var enterCallback:Void->Void = null;
     public function enter(speed:Float = 1) {
+        for (text in texts) text.visible = false;
         for (sprite in sprites) {
             if (sprite.y != 0 && sprite.y < (_height-1)*8) {
                 final ogScale = sprite.scale.y;
@@ -126,9 +177,13 @@ class Window extends FlxTypedSpriteGroup<FlxSprite> {
                 FlxTween.tween(sprite, {y: ogY}, 0.5 / speed);
             }
         }
+        if (enterCallback == null) enterCallback = () -> for (text in texts) text.visible = true;
+        new FlxTimer().start(0.5 / speed, _ -> if(enterCallback != null) enterCallback());
     }
 
+    public var exitCallback:Void->Void = null;
     public function exit(speed:Float = 1) {
+        for (text in texts) text.visible = false;
         for (sprite in sprites) {
             if (sprite.y != 0 && sprite.y < (_height-1)*8) {
                 FlxTween.tween(sprite, {"scale.y": 0.0001, y: (-sprite.height/2)+8}, 0.5 / speed);
@@ -136,5 +191,7 @@ class Window extends FlxTypedSpriteGroup<FlxSprite> {
                 FlxTween.tween(sprite, {y: 8}, 0.5 / speed);
             }
         }
+        if (exitCallback == null) exitCallback = () -> visible = false;
+        new FlxTimer().start(0.5 / speed, _ -> if(exitCallback != null) exitCallback());
     }
 }
