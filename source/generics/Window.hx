@@ -2,12 +2,12 @@ package generics;
 
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxSave;
 
 class Window extends FlxTypedSpriteGroup<FlxSprite> {
     //no text or symbols, just window!
     var sprites:Array<FlxSprite> = [];
-    var enterMask:FlxSprite;
     var _width:Int;
     var _height:Int;
     public function new(x:Float, y:Float, __width:Int, __height:Int, ?palette:Int = 255) {
@@ -78,25 +78,7 @@ class Window extends FlxTypedSpriteGroup<FlxSprite> {
     override function update(elapsed) {
         x = Math.round(x);
         y = Math.round(y);
-        if (entering) {
-            frameStep++;
-            if (frameStep % enterSpeed == 0) {
-                for (sprite in sprites) {
-                    if (FlxG.overlap(sprite, enterMask))
-                        sprite.visible = false;
-                    else
-                        sprite.visible = true;
-                }
-                enterMask.y += 8.1;
-                if (enterMask.y > (_height*8)+5) {
-                    entering = false;
-                    enterMask.kill();
-                    enterMask.destroy();
-                    for (sprite in sprites)
-                        sprite.visible = true;
-                }
-            }
-        }
+        super.update(elapsed);
     }
 
     public function setPalette(palette:Int, ?_save:Int = 0) {
@@ -130,18 +112,19 @@ class Window extends FlxTypedSpriteGroup<FlxSprite> {
         }
     }
 
-    var entering:Bool = false;
-    var enterSpeed:Int = 1;
-    var frameStep:Int = 0;
-    public function enter(speed:Int = 1) {
-        frameStep = 0;
-        enterSpeed = speed;
-        if (enterMask != null) {
-            enterMask.kill();
-            enterMask.destroy();
+    public function enter(speed:Float = 1) {
+        for (sprite in sprites) {
+            if (sprite.y != 0 && sprite.y < (_height-1)*8) {
+                final ogScale = sprite.scale.y;
+                final ogY = sprite.y;
+                sprite.scale.y = 0.0001;
+                sprite.y = (-sprite.height/2)+8;
+                FlxTween.tween(sprite, {"scale.y": ogScale, y: ogY}, 0.5 / speed);
+            } else if (sprite.y != 0 && sprite.y >= (_height-1)*8) {
+                final ogY = sprite.y;
+                sprite.y = 8;
+                FlxTween.tween(sprite, {y: ogY}, 0.5 / speed);
+            }
         }
-        enterMask = new FlxSprite(0,8).makeGraphic((_width*8)+8, (_height*8)+8, 0x00ff0000);
-        add(enterMask);
-        entering = true;
     }
 }

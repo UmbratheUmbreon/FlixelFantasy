@@ -19,7 +19,7 @@ class WindowTestState extends BasicState {
         FlxG.watch.addQuick("speed", speed);
     }
 
-    var speed:Int = 1;
+    var speed:Float = 1;
     override function keyPress(event:KeyboardEvent) {
         super.keyPress(event);
 		var eventKey:FlxKey = event.keyCode;
@@ -27,9 +27,9 @@ class WindowTestState extends BasicState {
 		switch (key)
 		{
             case SIX:
-                if (speed > 1) speed -= 1;
+                speed -= speed/2;
             case SEVEN:
-                speed += 1;
+                speed += speed;
 			case E:
                 window.enter(speed);
 			default:
