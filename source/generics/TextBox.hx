@@ -129,8 +129,52 @@ class TextBox extends FlxTypedSpriteGroup<FlxSprite> {
                     text.replaceColor(0xffffffff, 0xffff9c5a, false);
                 }
             case 4:
+                for (sprite in sprites) {
+                    sprite.replaceColor(0xff000084, 0xff000037, false);
+                }
                 for (text in texts) {
                     text.replaceColor(0xff000084, 0xff000037, false);
+                }
+            case 254:
+                for (sprite in sprites) {
+                    sprite.replaceColor(((save != null && save.data.config != null) ? save.data.config.get("windowColor") : 0xff000037), 0xff000084, false);
+                }
+                for (text in texts) {
+                    text.replaceColor(((save != null && save.data.config != null) ? save.data.config.get("windowColor") : 0xff000037), 0xff000084, false);
+                }
+            case 253:
+                for (sprite in sprites) {
+                    sprite.replaceColor(0xff424242, 0xffa3a3a3, false);
+                    sprite.replaceColor(0xff7b7b7b, 0xffffffff, false);
+                }
+                for (text in texts) {
+                    text.replaceColor(0xff424242, 0xffa3a3a3, false);
+                    text.replaceColor(0xff7b7b7b, 0xffffffff, false);
+                }
+            case 252:
+                for (sprite in sprites) {
+                    sprite.replaceColor(0xff00a500, 0xffa3a3a3, false);
+                    sprite.replaceColor(0xffffde00, 0xffffffff, false);
+                }
+                for (text in texts) {
+                    text.replaceColor(0xff00a500, 0xffa3a3a3, false);
+                    text.replaceColor(0xffffde00, 0xffffffff, false);
+                }
+            case 251:
+                for (sprite in sprites) {
+                    sprite.replaceColor(0xffff3a84, 0xffa3a3a3, false);
+                    sprite.replaceColor(0xffff9c5a, 0xffffffff, false);
+                }
+                for (text in texts) {
+                    text.replaceColor(0xffff3a84, 0xffa3a3a3, false);
+                    text.replaceColor(0xffff9c5a, 0xffffffff, false);
+                }
+            case 250:
+                for (sprite in sprites) {
+                    sprite.replaceColor(0xff000037, 0xff000084, false);
+                }
+                for (text in texts) {
+                    text.replaceColor(0xff000037, 0xff000084, false);
                 }
         }
     }
@@ -163,7 +207,6 @@ class TextBox extends FlxTypedSpriteGroup<FlxSprite> {
 
     public var enterCallback:Void->Void = null;
     public function enter(speed:Float = 1) {
-        for (text in texts) text.visible = false;
         for (sprite in sprites) {
             if (sprite.y != 0 && sprite.y < (_height-1)*8) {
                 final ogScale = sprite.scale.y;
@@ -177,19 +220,29 @@ class TextBox extends FlxTypedSpriteGroup<FlxSprite> {
                 FlxTween.tween(sprite, {y: ogY}, 0.5 / speed);
             }
         }
-        if (enterCallback == null) enterCallback = () -> for (text in texts) text.visible = true;
+        for (text in texts) {
+            final ogScale = text.scale.y;
+            final ogY = text.y;
+            final delayer = (text.y/8);
+            text.scale.y = 0.0001;
+            text.y = (-text.height/2)+8;
+            FlxTween.tween(text, {"scale.y": ogScale, y: ogY}, 0.5 / speed, {startDelay: (((0.01 / speed)/_height) * delayer)});
+        }
         new FlxTimer().start(0.5 / speed, _ -> if(enterCallback != null) enterCallback());
     }
 
     public var exitCallback:Void->Void = null;
     public function exit(speed:Float = 1) {
-        for (text in texts) text.visible = false;
         for (sprite in sprites) {
             if (sprite.y != 0 && sprite.y < (_height-1)*8) {
                 FlxTween.tween(sprite, {"scale.y": 0.0001, y: (-sprite.height/2)+8}, 0.5 / speed);
             } else if (sprite.y != 0 && sprite.y >= (_height-1)*8) {
                 FlxTween.tween(sprite, {y: 8}, 0.5 / speed);
             }
+        }
+        for (text in texts) {
+            final delayer = Math.min(-((text.y/8)-_height), 0); 
+            FlxTween.tween(text, {"scale.y": 0.0001, y: ((-text.height/2)+8) * delayer}, 0.5 / speed, {startDelay: (((0.15 / speed)/_height) * delayer)});
         }
         if (exitCallback == null) exitCallback = () -> visible = false;
         new FlxTimer().start(0.5 / speed, _ -> if(exitCallback != null) exitCallback());

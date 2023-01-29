@@ -1,5 +1,6 @@
 package;
 
+import cpp.vm.Gc;
 import flixel.FlxGame;
 import openfl.Lib;
 import openfl.display.Sprite;
@@ -41,11 +42,13 @@ class Main extends Sprite
 	{
 		addChild(new FlxGame(game.width, game.height, game.initial_state, game.framerate, game.framerate, game.skip_splash, game.fullscreen));
 
+		Gc.enable(true);
 		FlxG.game.focusLostFramerate = 60;
 		FlxG.keys.preventDefaultKeys = [TAB];
 		FlxG.save.bind('srm0');
 		FlxG.mouse.visible = false;
 		flixel.FlxSprite.defaultAntialiasing = false;
 		SaveManager.load();
+		Gc.run(true);
 	}
 }
