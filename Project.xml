@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Final Haxesty" file="FFHaxe" packageName="com.snacgames.ffhaxe" package="com.snacgames.ffhaxe" main="Main" version="0.0.1" company="SNAC Games" />
+	<app title="Flixel Fantasy" file="FFHaxe" packageName="com.snacgames.ffhaxe" package="com.snacgames.ffhaxe" main="Main" version="0.0.1" company="SNAC Games" />
 
 	<app preloader="flixel.system.FlxPreloader" />
 

@@ -2,6 +2,7 @@ package states;
 
 import flixel.FlxSprite;
 import flixel.input.keyboard.FlxKey;
+import flixel.math.FlxPoint;
 import flixel.util.FlxTimer;
 
 class TitleState extends BasicState
@@ -73,6 +74,8 @@ class TitleState extends BasicState
 				}
 			case F10:
 				BasicState.swapState(new states.WindowTestState(), BOX);
+			case F11:
+				BasicState.swapState(new OverworldState('World Map', FlxPoint.get(42*16, 56*16)), BOX);
 			#end
 			default:
 				//do nothin

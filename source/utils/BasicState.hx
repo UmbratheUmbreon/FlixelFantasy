@@ -156,6 +156,7 @@ class TransitionSubstate extends FlxSubState {
                     var bottom = new FlxSprite(0,112).makeGraphic(256, 112, 0xff000000);
                     add(bottom);
                     FlxTween.tween(top, {y: -112}, duration, {
+                        startDelay: 0.05,
                         onComplete: function(twn:FlxTween)
                         {
                             top.kill();
@@ -165,9 +166,9 @@ class TransitionSubstate extends FlxSubState {
                             close();
                         }
                     });
-                    FlxTween.tween(left, {x: -128}, duration);
-                    FlxTween.tween(right, {x: 256}, duration);
-                    FlxTween.tween(bottom, {y: 224}, duration);
+                    FlxTween.tween(left, {x: -128}, duration, {startDelay: 0.05});
+                    FlxTween.tween(right, {x: 256}, duration, {startDelay: 0.05});
+                    FlxTween.tween(bottom, {y: 224}, duration, {startDelay: 0.05});
                 }
         }
 	}
