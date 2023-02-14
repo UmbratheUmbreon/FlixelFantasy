@@ -52,6 +52,7 @@ class OverworldState extends BasicState {
         add(tilemap);
 
         player = new MapCharacter('CECIL', startingPos.x, startingPos.y);
+        player.moveCallback = () -> if (bufferedInputs.length > 0) player.move(bufferedInputs.splice(0, 1)[0]);
         add(player);
 
         cameraPos = FlxPoint.get(player.x + player.width/2, player.y + player.height/2);
@@ -64,25 +65,64 @@ class OverworldState extends BasicState {
     override function update(elapsed) {
         cameraPos = player.getMidpoint(cameraPos);
         FlxG.camera.focusOn(cameraPos);
+        #if debug
+        if (player.animation.curAnim != null) FlxG.watch.addQuick('playerAnim', player.animation.curAnim.name);
+        FlxG.watch.addQuick('zoom', FlxG.camera.zoom);
+        #end
     }
 
+    var bufferedInputs:Array<String> = [];
     override function keyPress(event:KeyboardEvent) {
         super.keyPress(event);
 		var eventKey:FlxKey = event.keyCode;
 		switch (eventKey)
 		{
 			case DOWN | S:
-				player.move('DOWN');
+                //check if currently moving, if not, move, otherwise push a new buffered input to be performed at the next valid time
+                if (player.movementTween == null) player.move('DOWN');
+                else (bufferedInputs.push('DOWN'));
             case UP | W:
-                player.move('UP');
+                if (player.movementTween == null) player.move('UP');
+                else (bufferedInputs.push('UP'));
             case LEFT | A:
-                player.move('LEFT');
+                if (player.movementTween == null) player.move('LEFT');
+                else (bufferedInputs.push('LEFT'));
             case RIGHT | D:
-                player.move('RIGHT');
+                if (player.movementTween == null) player.move('RIGHT');
+                else (bufferedInputs.push('RIGHT'));
             case THREE:
                 player.change();
+            #if debug
+            case FOUR:
+                FlxG.camera.zoom /= 2;
+            case FIVE:
+                FlxG.camera.zoom *= 2;
+            case SIX:
+                FlxG.camera.zoom = 0.0625;
+            case SEVEN:
+                FlxG.camera.zoom = 1;
+            #end
 			default:
 				//do nothin
+		}
+    }
+
+    override function keyRelease(event:KeyboardEvent) {
+        super.keyRelease(event);
+		var eventKey:FlxKey = event.keyCode;
+        switch (eventKey)
+		{
+            //stop lingering?
+			case DOWN | S:
+                while (bufferedInputs.contains('DOWN')) bufferedInputs.remove('DOWN');
+            case UP | W:
+                while (bufferedInputs.contains('UP')) bufferedInputs.remove('UP');
+            case LEFT | A:
+                while (bufferedInputs.contains('LEFT')) bufferedInputs.remove('LEFT');
+            case RIGHT | D:
+                while (bufferedInputs.contains('RIGHT')) bufferedInputs.remove('RIGHT');
+			default:
+				//nothin, nothin at all
 		}
     }
 

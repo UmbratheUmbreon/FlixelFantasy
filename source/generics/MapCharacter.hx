@@ -4,34 +4,35 @@ import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 
 class MapCharacter extends FlxSprite {
+    public var movementTween:FlxTween;
     public function new(character:String, x:Float, y:Float) {
         super(x, y);
         loadGraphic(Pathfinder.image('MAP/CHARACTERS/$character'), true, 16, 16);
-        resetAnimations();
+        resetAnimations(false);
         animation.play('idleDOWN', true);
-
-        animation.callback = function(name:String, frameNumber:Int, frameIndex:Int) {
-            //hehe
-            if (name == 'walkDOWN' || name == 'walkUP') {
-                if (frameNumber == 0) flipX = false;
-                else flipX = true;
-            }
-        }
     }
 
+    public dynamic function moveCallback() {
+        //ea sports da da da!
+    }
     public function move(direction:String) {
         //it was working when i started testing but then stopped working even though i never changed it
         //weird.
         animation.play('walk${direction.toUpperCase()}', true);
+        function finishCallback(_:FlxTween) {
+            animation.play('idle${direction.toUpperCase()}', true);
+            movementTween = null;
+            moveCallback();
+        }
         switch(direction.toLowerCase()) {
             case 'left':
-                FlxTween.tween(this, {x: this.x - 16}, 0.5/*, {onComplete: _ -> animation.play('idle${direction.toUpperCase()}', true)}*/);
+                movementTween = FlxTween.tween(this, {x: this.x - 16}, 0.3, {onComplete: finishCallback});
             case 'right':
-                FlxTween.tween(this, {x: this.x + 16}, 0.5/*, {onComplete: _ -> animation.play('idle${direction.toUpperCase()}', true)}*/);
+                movementTween = FlxTween.tween(this, {x: this.x + 16}, 0.3, {onComplete: finishCallback});
             case 'up':
-                FlxTween.tween(this, {y: this.y - 16}, 0.5/*, {onComplete: _ -> animation.play('idle${direction.toUpperCase()}', true)}*/);
+                movementTween = FlxTween.tween(this, {y: this.y - 16}, 0.3, {onComplete: finishCallback});
             case 'down':
-                FlxTween.tween(this, {y: this.y + 16}, 0.5/*, {onComplete: _ -> animation.play('idle${direction.toUpperCase()}', true)}*/);
+                movementTween = FlxTween.tween(this, {y: this.y + 16}, 0.3, {onComplete: finishCallback});
         }
     }
 
@@ -47,8 +48,8 @@ class MapCharacter extends FlxSprite {
         resetAnimations();
     }
 
-    function resetAnimations() {
-        animation.destroyAnimations();
+    function resetAnimations(destroy:Bool = true) {
+        if (destroy) animation.destroyAnimations();
         animation.add('idleDOWN', [0], 12, true);
         animation.add('idleUP', [1], 12, true);
         animation.add('idleLEFT', [2], 12, true);
@@ -62,5 +63,16 @@ class MapCharacter extends FlxSprite {
         animation.add('walkRIGHT', [2,3], 12, true, true);
         animation.add('walkDOWN', [0,0], 12, true);
         animation.add('walkUP', [1,1], 12, true);
+
+        animation.callback = function(name:String, frameNumber:Int, frameIndex:Int) {
+            //hehe
+            switch (name) {
+                case 'walkDOWN' | 'walkUP':
+                    if (frameNumber == 0) flipX = false;
+                    else flipX = true;
+                default:
+                    flipX = false;
+            }
+        }
     }
 }
