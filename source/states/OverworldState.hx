@@ -28,10 +28,10 @@ class OverworldState extends BasicState {
         var loader = new FlxOgmo3Loader('assets/ogmo/Flixel.ogmo', 'assets/ogmo/maps/$level.json');
         tilemap = loader.loadTilemap('assets/images/MAP/$tilemapGfx.png', 'Tiles');
         tilemap.follow();
-        switch (tilemapGfx.toLowerCase()) {
+        /*switch (tilemapGfx.toLowerCase()) {
             case 'overworld':
                 //cannot move at all
-                /*for (i in [0, 2, 3, 4, 5, 6, 7, 9, 11, 12, 15, 16, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 31, 32, 39, 41, 48, 56, 57, 58, 65, 72, 73, 74, 78, 79, 88,
+                for (i in [0, 2, 3, 4, 5, 6, 7, 9, 11, 12, 15, 16, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 31, 32, 39, 41, 48, 56, 57, 58, 65, 72, 73, 74, 78, 79, 88,
                     89, 90, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124])
                     tilemap.setTileProperties(i, FlxDirectionFlags.fromBools(false, false, false, false));
                 //can always move
@@ -47,8 +47,8 @@ class OverworldState extends BasicState {
                     tilemap.setTileProperties(i, FlxDirectionFlags.fromBools(true, false, false, true));
                 //can only move down and right
                 for (i in [36, 42])
-                    tilemap.setTileProperties(i, FlxDirectionFlags.fromBools(false, true, false, true));*/
-        }
+                    tilemap.setTileProperties(i, FlxDirectionFlags.fromBools(false, true, false, true));
+        }*/
         add(tilemap);
 
         player = new MapCharacter('CECIL', startingPos.x, startingPos.y);
@@ -59,7 +59,7 @@ class OverworldState extends BasicState {
 
         FlxG.camera.focusOn(cameraPos);
 
-        FlxG.sound.playMusic(Pathfinder.sound('${tilemapGfx.toLowerCase()}', true), 0.4);
+        FlxG.sound.playMusic(Pathfinder.sound('${tilemapGfx.toLowerCase()}', true), 0.8);
     }
 
     override function update(elapsed) {

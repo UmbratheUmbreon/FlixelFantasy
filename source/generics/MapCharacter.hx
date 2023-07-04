@@ -18,9 +18,9 @@ class MapCharacter extends FlxSprite {
     public function move(direction:String) {
         //it was working when i started testing but then stopped working even though i never changed it
         //weird.
-        animation.play('walk${direction.toUpperCase()}', true);
+        animation.play('walk${direction.toUpperCase()}', false);
         function finishCallback(_:FlxTween) {
-            animation.play('idle${direction.toUpperCase()}', true);
+            animation.play('idle${direction.toUpperCase()}', false);
             movementTween = null;
             moveCallback();
         }

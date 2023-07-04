@@ -79,7 +79,10 @@ class WindowText extends FlxTypedSpriteGroup<FlxSprite> {
         "%" => 198,
         "/" => 199,
         ":" => 200,
-        "," => 201
+        "," => 201,
+        "{" => 119,
+        "}" => 120,
+        "[" => 202
     ];
     var sprites:Array<FlxSprite> = [];
     var _x:Float = 0;

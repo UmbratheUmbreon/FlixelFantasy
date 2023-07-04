@@ -6,6 +6,8 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 
+using StringTools;
+
 class TextBox extends FlxTypedSpriteGroup<FlxSprite> {
     var sprites:Array<FlxSprite> = [];
     var _width:Int;
@@ -198,7 +200,7 @@ class TextBox extends FlxTypedSpriteGroup<FlxSprite> {
             text.active = false;
             add(text);
             xInc++;
-            if (xInc == fieldWidth) {
+            if (xInc == fieldWidth+1) {
                 xInc = 0;
                 yInc++;
             }

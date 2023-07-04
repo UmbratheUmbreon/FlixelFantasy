@@ -47,6 +47,7 @@ class Main extends Sprite
 		FlxG.keys.preventDefaultKeys = [TAB];
 		FlxG.save.bind('srm0');
 		FlxG.mouse.visible = false;
+		FlxG.scaleMode = new flixel.system.scaleModes.PixelPerfectScaleMode();
 		flixel.FlxSprite.defaultAntialiasing = false;
 		SaveManager.load();
 		Gc.run(true);

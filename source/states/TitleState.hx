@@ -76,6 +76,8 @@ class TitleState extends BasicState
 				BasicState.swapState(new states.WindowTestState(), BOX);
 			case F11:
 				BasicState.swapState(new OverworldState('World Map', FlxPoint.get(42*16, 56*16)), BOX);
+			case F9:
+				BasicState.swapState(new BattleState(), BOX);
 			#end
 			default:
 				//do nothin

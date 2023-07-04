@@ -147,7 +147,7 @@ class SaveCharacter extends FlxSprite
             return;
         }
         loadGraphic(Pathfinder.image('BATTLE/CHARACTERS/$name'), true, 16, 24);
-        animation.add('idle', [0], 24);
+        animation.add('idle', [11], 24);
         animation.play('idle');
     }
 }
